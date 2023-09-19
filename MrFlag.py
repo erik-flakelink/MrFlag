@@ -32,7 +32,6 @@ rooted = True
 root = Tk()
 
 def play():
-    choices = []
     global rooted
     list_o_flags = listy()
     backup = backups()
