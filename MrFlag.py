@@ -35,6 +35,7 @@ def play():
     global rooted
     list_o_flags = listy()
     backup = backups()
+    choices = []
     if rooted == True:
         root.destroy()
         rooted = False
