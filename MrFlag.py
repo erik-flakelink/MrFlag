@@ -1,67 +1,79 @@
 from tkinter import *
 import random
 
-official_flag_bank  = [
-    "United States",
-    "United Kingdom",
-    "Russia",
-    "Poland",
-    "India",
-    "Germany"
-]
+score = 0
 
-flag_bank  = [
-    "United States",
-    "United Kingdom",
-    "Russia",
-    "Poland",
-    "India",
-    "Germany"
-]
+def listy():
+    list_o_flags = [
+        ["us.png", "United States"],
+        ["uk.png", "United Kingdom"],
+        ["ru.png", "Russia"],
+        ["pl.png", "Poland"],
+        ["in.png", "India"],
+        ["de.png", "Germany"]
+    ]
+    return list_o_flags
 
-temp_bank = []
+def backups():
+    backup = [
+        ["us.png", "United States"],
+        ["uk.png", "United Kingdom"],
+        ["ru.png", "Russia"],
+        ["pl.png", "Poland"],
+        ["in.png", "India"],
+        ["de.png", "Germany"]
+    ]
+    return backup
 
-list_o_flags = [
-    ["us.png", "United States"],
-    ["uk.png", "United Kingdom"],
-    ["ru.png", "Russia"],
-    ["pl.png", "Poland"],
-    ["in.png", "India"],
-    ["de.png", "Germany"]
-]
+choices = []
+
+rooted = True
 
 root = Tk()
 
 def play():
-    root.destroy()
+    choices = []
+    global rooted
+    list_o_flags = listy()
+    backup = backups()
+    if rooted == True:
+        root.destroy()
+        rooted = False
+    else:
+        global root2
+        root2.destroy()
     root2 = Tk()
     icon = PhotoImage(file="mrflagicon.png") 
     root2.iconphoto(False, icon)
     root2.title("Mr. Flag")
-    canvas2= Canvas(root2, width = 175, height = 175)      
-    canvas2.grid()
-    img2 = PhotoImage(file="mrflagneutral.png")
-    canvas2.create_image(10,5, anchor=NW, image=img2)
-    lbl_title = Label(root2, text="MR FLAG: \"Alright, let's see what you got.\"").grid(row=0, column=1)
-    randomly_generated_country = random.randint(0, len(list_o_flags) - 1)
-    img3 = PhotoImage(file=list_o_flags[randomly_generated_country][0])
-    del flag_bank[randomly_generated_country]
-    canvas3= Canvas(root2, width = 150, height = 150)      
+    country = random.randint(0, len(list_o_flags) - 1)
+    img3 = PhotoImage(file=list_o_flags[country][0])
+    choices.append(list_o_flags[country][1])
+    del list_o_flags[country]
+    options = 3
+    canvas3= Canvas(root2, width = 125, height = 100)      
     canvas3.grid()
-    canvas3.create_image(10,5, anchor=NW, image=img3)
-    temp_bank = []
-    for i in flag_bank:
-        temp_bank.append(i)
-    while len(temp_bank) != 3:
-        del temp_bank[-1]
-    temp_bank.append(list_o_flags[randomly_generated_country][1])
-    print(temp_bank)
-    temp_bank.sort()
-    for i in temp_bank:
-        btn_quiz = Button(root2, text=i, fg="black", bg="white", command=exit)
-        btn_quiz.grid(column=1)
+    canvas3.create_image(0,0, anchor=NW, image=img3)
+    while options != 0:
+        tbd = random.randint(0, len(list_o_flags) - 1)
+        choices.append(list_o_flags[tbd][1])
+        del list_o_flags[tbd]
+        options -= 1
+    print(choices)
+    choices.sort()
+    for i in choices:
+        if i == backup[country][1]:
+            btn = Button(root2, text=i, fg="black", bg="white", command=lvlup)
+            btn.grid(column=0)
+        else:
+            btn = Button(root2, text=i, fg="black", bg="white")
+            btn.grid(column=0)
     mainloop()
 
+def lvlup():
+    global score
+    score = score + 1
+    play()
 
 icon = PhotoImage(file="mrflagicon.png") 
 root.iconphoto(False, icon)
